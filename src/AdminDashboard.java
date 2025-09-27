@@ -805,7 +805,6 @@ public class AdminDashboard extends JFrame {
         companyLogoLabel.setOpaque(true);
         companyLogoLabel.setBackground(Color.WHITE);
         companyLogoLabel.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 80));
-
         addCompanyEmployersPanel.add(companyLogoLabel);
 
         // Set profile button
