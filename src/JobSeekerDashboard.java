@@ -373,7 +373,7 @@ class JobSeekerDashboard extends JFrame {
         Font starFont = new Font("Segoe UI Symbol", Font.PLAIN, 35);
         Font emojiFont = new Font("Segoe UI Emoji", Font.PLAIN, 14);
 
-        // Helps in switching pages (Jpanels)
+        // Helps in switching pages (JPanels)
         CardLayout jobseekerCardLayout = new CardLayout();
 
         // Container for jobseeker
@@ -388,7 +388,7 @@ class JobSeekerDashboard extends JFrame {
         jobSeekerContainer.add(jobSeekerPanel);
 
         // Jobverse logo
-        ImageIcon originalIcon = new ImageIcon("src/JobVerse-removebg-preview.png");
+        ImageIcon originalIcon = new ImageIcon("images/JobVerse-removebg-preview.png");
         Image scaledImage = originalIcon.getImage().getScaledInstance(190, 60, Image.SCALE_SMOOTH);
 
         // Logo label
