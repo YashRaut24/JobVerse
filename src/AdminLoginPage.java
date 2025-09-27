@@ -73,6 +73,7 @@ class AdminLoginPage extends JFrame {
     // Constructor
     AdminLoginPage() {
 
+        String adminLogin = "Admin Login";
         // Database Credentials
         String url = System.getenv("DB_URL");
         String user = System.getenv("DB_USER");
