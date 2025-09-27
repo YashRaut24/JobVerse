@@ -11,6 +11,8 @@ class Contact extends JFrame {
 
     Contact() {
 
+        String Contact = "Contact";
+
         Font labelFont = new Font("Segoe UI", Font.PLAIN, 14);
         Color labelColor = new Color(44, 62, 80);
 
