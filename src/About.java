@@ -47,6 +47,7 @@ class About extends JFrame {
                         "how job seekers find opportunities and employers discover talent.\n\n" +
                         "Built with modern web technologies to deliver a scalable and robust hiring solution."
         );
+        
         aboutTextArea.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         aboutTextArea.setLineWrap(true);
         aboutTextArea.setWrapStyleWord(true);
