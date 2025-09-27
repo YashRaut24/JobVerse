@@ -52,6 +52,8 @@ class LoginPage extends JFrame {
     // Constructor
     LoginPage() {
 
+        String loginPage = "LoginPage";
+
         // Database credentials
         String url = System.getenv("DB_URL");
         String user = System.getenv("DB_USER");
