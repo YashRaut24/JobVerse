@@ -312,7 +312,6 @@ class JSProfile extends JFrame {
             pst.setString(10, yearValue);
 
             pst.setBytes(11, uploadedImageBytes);
-
             pst.executeUpdate();
         } catch (Exception ex) {
             ex.printStackTrace();
