@@ -60,6 +60,8 @@ public class JSChatSys extends JFrame {
 
     JSChatSys(String jobSeekerName, String employerName) {
 
+        String JSChat = "JSChat";
+
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ignore) {}
