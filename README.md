@@ -43,7 +43,7 @@ Backend: Java + MySQL
 
 Database: MySQL
 
-Additional: Gmail API (for email notifications), BLOB storage for resumes
+Additional: BLOB storage for resumes
 
 🚀 Setup
 Option 1: Using .properties file
