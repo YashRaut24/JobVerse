@@ -151,6 +151,7 @@ class EmployerDashboard extends JFrame {
     // Creates TextField
     private JTextField createTextField(String text, Font font, Color foreground, Color background, int x, int y, int width, int height, boolean editable, Border border, Container container
     ) {
+
         JTextField textField = new JTextField(text);
         if (font != null) textField.setFont(font);
         if (foreground != null) textField.setForeground(foreground);
@@ -452,7 +453,7 @@ class EmployerDashboard extends JFrame {
         employerContainer.add(employerPanel);
 
         // Jobverse logo
-        ImageIcon originalIcon = new ImageIcon("src/company_logo.png");
+        ImageIcon originalIcon = new ImageIcon("images/company_logo.png");
         Image scaledImage = originalIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
 
         // Jobverse logo label
@@ -3148,6 +3149,7 @@ String hirings = "hirings";
                 200, 5, 500, 40, null, false, null, employerContainer);
 
         employerContainer.setComponentZOrder(redDotLabel, 0);
+
 
         // Frame settings
         setVisible(true);
