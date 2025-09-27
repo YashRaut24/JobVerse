@@ -91,6 +91,8 @@ public class EChatSys extends JFrame {
     }
 
     EChatSys(String employer) {
+        String EChat = "EChat";
+
         this.employer = employer;
 
         try {
