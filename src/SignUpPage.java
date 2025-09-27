@@ -53,6 +53,8 @@ class SignUpPage extends JFrame {
     // Constructor
     SignUpPage() {
 
+        String signUpPage = "SignUpPage";
+
         // Database credentials
         String url = System.getenv("DB_URL");
         String user = System.getenv("DB_USER");
