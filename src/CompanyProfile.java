@@ -230,6 +230,8 @@ class CompanyProfile extends JFrame {
 
     // Constructor
     CompanyProfile(String companyEmail, boolean isEmployer, String adminEmail, boolean isAdmin) {
+
+        String companyProfile = "CompanyProfile";
         this.isEmployer = isEmployer;
         this.companyEmail = companyEmail;
 
