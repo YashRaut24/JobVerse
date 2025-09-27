@@ -58,7 +58,6 @@ public class ReportPanel extends JFrame {
     // Constructor
     ReportPanel(int id, String reportedBy, String reportedAgainst, String reportedRole,String reporter) {
 
-        String reportPanel = "ReportPanel";
         this.jobID = id;
         this.reportedBy = reportedBy;
         this.reportedAgainst = reportedAgainst;
