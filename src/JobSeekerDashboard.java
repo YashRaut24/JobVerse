@@ -1326,7 +1326,7 @@ class JobSeekerDashboard extends JFrame {
                         jobTypeLabel.setForeground(new Color(75, 85, 99));
 
                         // Skills label
-                        JLabel skillsLabel = createLabel("• " + (ASkillsRequired.length() > 20 ? ASkillsRequired.substring(0, 20) + "..." : ASkillsRequired),
+                        JLabel skillsLabel = createLabel("• " + (ASkillsRequired.length() > 50 ? ASkillsRequired.substring(0, 50) + "..." : ASkillsRequired),
                                 new Font("Segoe UI", Font.PLAIN, 9), 80, 46, 250, 14, appliedCardPanel);
                         skillsLabel.setForeground(new Color(107, 114, 128));
 
@@ -1549,9 +1549,9 @@ class JobSeekerDashboard extends JFrame {
                         int labelX = 80;
 
                         // Company info label
-                        JLabel companynInfoLabel = createLabel(companyInfo, new Font("Segoe UI", Font.BOLD, 12),
+                        JLabel companyInfoLabel = createLabel(companyInfo, new Font("Segoe UI", Font.BOLD, 12),
                                 labelX, 8, 170, 18, savedCardPanel);
-                        companynInfoLabel.setForeground(new Color(17, 24, 39));
+                        companyInfoLabel.setForeground(new Color(17, 24, 39));
 
                         // Job type label
                         JLabel jobTypeLabel = createLabel("• " + SJobType, new Font("Segoe UI", Font.PLAIN, 10),
@@ -1559,9 +1559,9 @@ class JobSeekerDashboard extends JFrame {
                         jobTypeLabel.setForeground(new Color(75, 85, 99));
 
                         // Skills label
-                        JLabel skillsLabel = createLabel("• " + (SSkillsRequired.length() > 20 ?
-                                        SSkillsRequired.substring(0, 20) + "..." : SSkillsRequired),
-                                new Font("Segoe UI", Font.PLAIN, 9), labelX, 46, 170, 14, savedCardPanel);
+                        JLabel skillsLabel = createLabel("• " + (SSkillsRequired.length() > 40 ?
+                                        SSkillsRequired.substring(0, 40) + "..." : SSkillsRequired),
+                                new Font("Segoe UI", Font.PLAIN, 9), labelX, 46, 250, 14, savedCardPanel);
                         skillsLabel.setForeground(new Color(107, 114, 128));
 
                         // Salary label
