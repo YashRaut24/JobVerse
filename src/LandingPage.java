@@ -87,7 +87,7 @@ class LandingPage extends JFrame {
         navBarPanel.add(createNavLabel("Contact"));
 
         // JobPortal Logo
-        ImageIcon logo = new ImageIcon("src/JobVerse-removebg-preview.png");
+        ImageIcon logo = new ImageIcon("images/JobVerse-removebg-preview.png");
         Image scaledImage = logo.getImage().getScaledInstance(340, -1, Image.SCALE_SMOOTH);
         JLabel logoLabel = new JLabel(new ImageIcon(scaledImage), JLabel.CENTER);
         logoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
