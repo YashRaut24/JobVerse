@@ -137,6 +137,8 @@ class ApplyForm extends JFrame {
     // Constructor
     ApplyForm(String userEmail, String companyName, String location, String jobType, String skills, String salary, String postedDate, int jobId, String employerEmail) {
 
+        String applyForm = "ApplyForm";
+
         this.companyName = companyName;
         this.location = location;
         this.jobType = jobType;
