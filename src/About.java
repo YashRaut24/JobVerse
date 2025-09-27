@@ -3,7 +3,7 @@ import java.awt.*;
 
 class About extends JFrame {
     About() {
-   
+
 
         // About panel
         JPanel aboutPanel = new JPanel(null);
