@@ -76,6 +76,7 @@ class AdminSignUpPage extends JFrame {
     // Constructor
     AdminSignUpPage() {
 
+        String adminSignUp = "SignUpPage";
         // Database Credentials
         String url = System.getenv("DB_URL");
         String user = System.getenv("DB_USER");
