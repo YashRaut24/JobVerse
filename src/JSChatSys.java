@@ -62,10 +62,6 @@ public class JSChatSys extends JFrame {
 
         String JSChat = "JSChat";
 
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception ignore) {}
-
         // Chat area
         chatArea = new JTextArea();
         chatArea.setEditable(false);
@@ -85,6 +81,10 @@ public class JSChatSys extends JFrame {
         sendButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
         sendButton.setBackground(new Color(0, 123, 255));
         sendButton.setForeground(Color.WHITE);
+        sendButton.setOpaque(true);
+        sendButton.setBorderPainted(false);
+        sendButton.setFocusPainted(false);
+        sendButton.setContentAreaFilled(true);
 
         // Bottom panel
         JPanel bottomPanel = new JPanel(new BorderLayout());
