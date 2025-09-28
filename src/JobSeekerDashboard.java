@@ -431,7 +431,7 @@ class JobSeekerDashboard extends JFrame {
         ));
         filterPanel.setPreferredSize(new Dimension(280, 280));
 
-        // Stores jobtypes
+        // Stores job types
         String[] jobTypes = {"", "Full Time", "Internship", "Remote Work", "Part Time"};
 
         // Stores salaries type
@@ -510,7 +510,7 @@ class JobSeekerDashboard extends JFrame {
         JLabel skillsLabel2 = createLabel("Skills:", new Font("Arial", Font.BOLD, 12), 20, 200, 80, 30, filterPanel);
         skillsLabel2.setForeground(new Color(60, 60, 60));
 
-        // Skills textfield
+        // Skills TextField
         JTextField skills2 = new JTextField();
         skills2.setBounds(110, 200, 150, 30);
         skills2.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -753,7 +753,7 @@ class JobSeekerDashboard extends JFrame {
         });
 
         int count = 0;
-        String jsNotificationsSql = "SELECT COUNT(*) FROM jsnotifications WHERE emailJS = ?";
+        String jsNotificationsSql = "SELECT COUNT(*) FROM jsnotifications WHERE emailJS = ? OR emailJS = 'ALL'";
         try (Connection con = DriverManager.getConnection(url, user, password)){
             try(PreparedStatement pst1 = con.prepareStatement(jsNotificationsSql)){
                 pst1.setString(1, email);
@@ -811,7 +811,7 @@ class JobSeekerDashboard extends JFrame {
         notificationButton.addActionListener(f -> {
             try (Connection con = DriverManager.getConnection(url, user, password)) {
 
-                String shortlistedUrl = "SELECT * FROM jsnotifications WHERE emailJS = ? OR emailJS = ''";
+                String shortlistedUrl = "SELECT * FROM jsnotifications WHERE emailJS = ? OR emailJS = 'ALL'";
                 try(PreparedStatement pst = con.prepareStatement(shortlistedUrl)){
                     pst.setString(1, email);
                     ResultSet rs = pst.executeQuery();
@@ -2035,111 +2035,82 @@ class JobSeekerDashboard extends JFrame {
                 e.printStackTrace();
             }
         });
+        try (Connection con = DriverManager.getConnection(url, user, password)) {
 
-        try(Connection con = DriverManager.getConnection(url,user,password)){
-            String statusUrl = "SELECT * FROM Status WHERE email = ?";
-            try(PreparedStatement pst = con.prepareStatement(statusUrl)){
-                pst.setString(1,email);
-                ResultSet rs = pst.executeQuery();
-
-                if(rs.next()){
-                    // Applications Submitted Panel
-                    JPanel applicationSubmittedPanel = new JPanel();
-                    applicationSubmittedPanel.setLayout(null);
-                    applicationSubmittedPanel.setBackground(new Color(248, 249, 250));
-
-                    applicationSubmittedPanel.setBorder(BorderFactory.createCompoundBorder(
-                            BorderFactory.createRaisedBevelBorder(),
-                            BorderFactory.createEmptyBorder(8, 10, 8, 10)
-                    ));
-
-                    // Applications label
-                    JLabel applicationsLabel = createLabel("Applications", new Font("Segoe UI", Font.BOLD, 12), 10, 5, 100, 15, applicationSubmittedPanel);
-                    applicationsLabel.setForeground(new Color(70, 70, 70));
-
-                    // Submitted label
-                    JLabel submittedLabel = createLabel("Submitted", new Font("Segoe UI", Font.BOLD, 12), 10, 20, 100, 15, applicationSubmittedPanel);
-                    submittedLabel.setForeground(new Color(100, 100, 100));
-
-                    // ApplicationsValue label
-                    JLabel applicationsValueLabel = createLabel(rs.getString("ApplicationsSubmitted"), new Font("Segoe UI", Font.BOLD, 24), 120, 10, 40, 30, applicationSubmittedPanel);
-                    applicationsValueLabel.setForeground(new Color(52, 152, 219));
-
-                    // Interviews Pending Panel
-                    JPanel interviewPendingPanel = new JPanel();
-                    interviewPendingPanel.setLayout(null);
-                    interviewPendingPanel.setBackground(new Color(248, 249, 250));
-                    interviewPendingPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(),
-                            BorderFactory.createEmptyBorder(8, 10, 8, 10)
-                    ));
-
-                    // Interviews label
-                    JLabel interviewsLabel = createLabel("Interviews", new Font("Segoe UI", Font.BOLD, 12), 10, 5, 100, 15, interviewPendingPanel);
-                    interviewsLabel.setForeground(new Color(70, 70, 70));
-
-                    // Pending label
-                    JLabel pendingLabel = createLabel("Pending", new Font("Segoe UI", Font.BOLD, 12), 10, 20, 100, 15, interviewPendingPanel);
-                    pendingLabel.setForeground(new Color(100, 100, 100));
-
-                    // InterviewsPendingValues label
-                    JLabel interviewsPendingValuesLabel = createLabel(rs.getString("InterviewsPending"), new Font("Segoe UI", Font.BOLD, 24), 120, 10, 40, 30, interviewPendingPanel);
-                    interviewsPendingValuesLabel.setForeground(new Color(46, 204, 113));
-
-                    jobSeekerContainer.add(applicationSubmittedPanel);
-                    jobSeekerContainer.add(interviewPendingPanel);
-                    applicationSubmittedPanel.setBounds(10, 399, 170, 50);
-                    interviewPendingPanel.setBounds(10, 460, 170, 50);
-                }else {
-                    // Application submitted panel
-                    JPanel applicationSubmittedPanel = new JPanel();
-                    applicationSubmittedPanel.setLayout(null);
-                    applicationSubmittedPanel.setBackground(new Color(248, 249, 250));
-
-                    applicationSubmittedPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(),
-                            BorderFactory.createEmptyBorder(8, 10, 8, 10)
-                    ));
-
-                    // Applications label
-                    JLabel applicationLabel = createLabel("Applications", new Font("Segoe UI", Font.BOLD, 12), 10, 5, 100, 15, applicationSubmittedPanel);
-                    applicationLabel.setForeground(new Color(70, 70, 70));
-
-                    // Submitted label
-                    JLabel submittedLabel = createLabel("Submitted", new Font("Segoe UI", Font.PLAIN, 11), 10, 20, 100, 15, applicationSubmittedPanel);
-                    submittedLabel.setForeground(new Color(100, 100, 100));
-
-                    // Applications value
-                    JLabel applicationsValue = createLabel("0", new Font("Segoe UI", Font.BOLD, 24), 120, 10, 40, 30, applicationSubmittedPanel);
-                    applicationsValue.setForeground(new Color(149, 165, 166));
-
-                    // Interview Pending panel
-                    JPanel interviewPendingPanel = new JPanel();
-                    interviewPendingPanel.setLayout(null);
-                    interviewPendingPanel.setBackground(new Color(248, 249, 250));
-                    interviewPendingPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(),
-                            BorderFactory.createEmptyBorder(8, 10, 8, 10)
-                    ));
-
-                    // Interviews label
-                    JLabel interviewsLabel = createLabel("Interviews", new Font("Segoe UI", Font.BOLD, 12), 10, 5, 100, 15, interviewPendingPanel);
-                    interviewsLabel.setForeground(new Color(70, 70, 70));
-
-                    // Pending label
-                    JLabel pendingLabel = createLabel("Pending", new Font("Segoe UI", Font.PLAIN, 11), 10, 20, 100, 15, interviewPendingPanel);
-                    pendingLabel.setForeground(new Color(100, 100, 100));
-
-                    // InterviewValue panel
-                    JLabel interviewValue = createLabel("0", new Font("Segoe UI", Font.BOLD, 24), 120, 10, 40, 30, interviewPendingPanel);
-                    interviewValue.setForeground(new Color(149, 165, 166));
-
-                    jobSeekerContainer.add(applicationSubmittedPanel);
-                    jobSeekerContainer.add(interviewPendingPanel);
-                    applicationSubmittedPanel.setBounds(10, 399, 170, 50);
-                    interviewPendingPanel.setBounds(10, 460, 170, 50);
+            // Query for Applications Submitted
+            String submittedQuery = "SELECT COUNT(*) AS totalApps FROM appliedjobs WHERE UserEmail = ?";
+            int applicationsSubmitted = 0;
+            try (PreparedStatement pst1 = con.prepareStatement(submittedQuery)) {
+                pst1.setString(1, email);
+                ResultSet rs1 = pst1.executeQuery();
+                if (rs1.next()) {
+                    applicationsSubmitted = rs1.getInt("totalApps");
                 }
             }
-        }catch (Exception e){
+
+            // Query for Interviews Pending from interviewschedule table
+            String interviewQuery = "SELECT COUNT(*) AS totalInterviews FROM interviewschedule WHERE jobseeker_email = ?";
+            int interviewsPending = 0;
+            try (PreparedStatement pst2 = con.prepareStatement(interviewQuery)) {
+                pst2.setString(1, email);
+                ResultSet rs2 = pst2.executeQuery();
+                if (rs2.next()) {
+                    interviewsPending = rs2.getInt("totalInterviews");
+                }
+            }
+
+            // Applications Submitted Panel
+            JPanel applicationSubmittedPanel = new JPanel();
+            applicationSubmittedPanel.setLayout(null);
+            applicationSubmittedPanel.setBackground(new Color(248, 249, 250));
+            applicationSubmittedPanel.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createRaisedBevelBorder(),
+                    BorderFactory.createEmptyBorder(8, 10, 8, 10)
+            ));
+
+            JLabel applicationsLabel = createLabel("Applications", new Font("Segoe UI", Font.BOLD, 12),
+                    10, 5, 100, 15, applicationSubmittedPanel);
+            applicationsLabel.setForeground(new Color(70, 70, 70));
+
+            JLabel submittedLabel = createLabel("Submitted", new Font("Segoe UI", Font.BOLD, 12),
+                    10, 20, 100, 15, applicationSubmittedPanel);
+            submittedLabel.setForeground(new Color(100, 100, 100));
+
+            JLabel applicationsValueLabel = createLabel(String.valueOf(applicationsSubmitted),
+                    new Font("Segoe UI", Font.BOLD, 24), 120, 10, 40, 30, applicationSubmittedPanel);
+            applicationsValueLabel.setForeground(new Color(52, 152, 219));
+
+            // Interviews Pending Panel
+            JPanel interviewPendingPanel = new JPanel();
+            interviewPendingPanel.setLayout(null);
+            interviewPendingPanel.setBackground(new Color(248, 249, 250));
+            interviewPendingPanel.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createRaisedBevelBorder(),
+                    BorderFactory.createEmptyBorder(8, 10, 8, 10)
+            ));
+
+            JLabel interviewsLabel = createLabel("Interviews", new Font("Segoe UI", Font.BOLD, 12),
+                    10, 5, 100, 15, interviewPendingPanel);
+            interviewsLabel.setForeground(new Color(70, 70, 70));
+
+            JLabel pendingLabel = createLabel("Pending", new Font("Segoe UI", Font.BOLD, 12),
+                    10, 20, 100, 15, interviewPendingPanel);
+            pendingLabel.setForeground(new Color(100, 100, 100));
+
+            JLabel interviewsPendingValuesLabel = createLabel(String.valueOf(interviewsPending),
+                    new Font("Segoe UI", Font.BOLD, 24), 120, 10, 40, 30, interviewPendingPanel);
+            interviewsPendingValuesLabel.setForeground(new Color(46, 204, 113));
+
+            // Add both panels
+            jobSeekerContainer.add(applicationSubmittedPanel);
+            jobSeekerContainer.add(interviewPendingPanel);
+            applicationSubmittedPanel.setBounds(10, 399, 170, 50);
+            interviewPendingPanel.setBounds(10, 460, 170, 50);
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
+
 
         // Sidebar job trends button
         JButton jobTrends = new JButton("Job Trends");
