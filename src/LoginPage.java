@@ -123,6 +123,7 @@ class LoginPage extends JFrame {
                         // Checks status, if banned or not
                         if ("banned".equalsIgnoreCase(status)) {
                             JOptionPane.showMessageDialog(null, "Your JobVerse account has been banned.");
+                            return;
                         } else {
                             String firstName = rs.getString("firstname");
                             String lastName = rs.getString("lastname");
@@ -158,6 +159,7 @@ class LoginPage extends JFrame {
                                 // Checks status, if banned or not
                                 if (rs1.next() && "banned".equalsIgnoreCase(rs1.getString("status"))) {
                                     JOptionPane.showMessageDialog(null, "Your Employer account has been banned.");
+                                    return;
                                 } else {
                                     String empName = rs.getString("fullname");
                                     String companyName = rs.getString("companyname");
