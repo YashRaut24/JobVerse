@@ -72,16 +72,20 @@ This ensures:
 ### 📸 Screenshots
 
 **Landing Page**
-![JobVerse Demo](Images/LandingPage.png)
+
+<img src="Images/LandingPage.png" alt="JobVerse Landing Page" width="600">
 
 **Job Seeker Dashboard**
-![JobVerse Demo](Images/JobSeekers%20Dashboard.png)
+
+<img src="Images/JobSeekers Dashboard.png" alt="JobVerse Job Seeker Dashboard" width="600">
 
 **Employer Dashboard**
-![JobVerse Demo](Images/Employers%20Dashboard.png)
+
+<img src="Images/Employers Dashboard.png" alt="JobVerse Employer Dashboard" width="600">
 
 **Admin Dashboard**
-![JobVerse Demo](Images/Admin%20Dashboard.png)
+
+<img src="Images/Admin Dashboard.png" alt="JobVerse Admin Dashboard" width="600">
 
 ## 📁 Project Structure
 
