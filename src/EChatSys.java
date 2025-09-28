@@ -95,10 +95,6 @@ public class EChatSys extends JFrame {
 
         this.employer = employer;
 
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception ignored) {}
-
         // Create components
         listModel = new DefaultListModel<>();
         jobSeekerList = new JList<>(listModel);
