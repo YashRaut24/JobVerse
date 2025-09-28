@@ -1024,13 +1024,15 @@ class EmployerDashboard extends JFrame {
             cardContainer.setBackground(new Color(230, 230, 230));
             cardContainer.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 20));
 
+            String status = "Pending";
             try (Connection con1 = DriverManager.getConnection(url, user, password)) {
                 // Modified query to exclude shortlisted candidates
-                String appliedJobsSql = "SELECT * FROM appliedjobs WHERE CompanyName = ? AND (statusUpdate IS NULL OR statusUpdate != 'Shortlisted')";
+                String appliedJobsSql = "SELECT * FROM appliedjobs WHERE CompanyName = ? AND statusUpdate =?";
                 String userProfileSql = "SELECT * FROM userprofile WHERE JSEmail = ?";
 
                 try (PreparedStatement pst1 = con1.prepareStatement(appliedJobsSql)) {
                     pst1.setString(1, companyName);
+                    pst1.setString(2,status);
                     ResultSet rs1 = pst1.executeQuery();
 
                     while (rs1.next()) {
@@ -1273,25 +1275,25 @@ class EmployerDashboard extends JFrame {
                     pst.setString(6, salary);
                     pst.setString(7, requirement);
                     pst.setString(8, position);
-                    pst.setString(9, latestEmpEmail);
+                    pst.setString(9, empEmail);
                     pst.executeUpdate();
 
-                    String employerCheck = "SELECT * FROM companies WHERE companyEmail = ?";
+                    String employerCheck = "SELECT * FROM companies WHERE employersEmail = ?";
                     String activitiesUrl = "INSERT INTO activities (empEmail, activity,user) VALUES (?,?,?)";
                     String message =companyName+ "has posted a new job opening for the position of " + position + " as " + jobType + "!";
                     try (PreparedStatement pstt = con.prepareStatement(employerCheck)) {
-                        pstt.setString(1, latestEmpEmail);
+                        pstt.setString(1, empEmail);
                         ResultSet rs7 = pstt.executeQuery();
                         if (rs7.next()) {
                             try (PreparedStatement psttt = con.prepareStatement(activitiesUrl)) {
-                                psttt.setString(1, latestEmpEmail);
+                                psttt.setString(1, empEmail);
                                 psttt.setString(2, message);
                                 psttt.setString(3,"Employer");
                                 psttt.executeUpdate();
                             }
                         }
                     }
-String hirings = "hirings";
+                    String hirings = "hirings";
                     String jsnotificationsSql = "INSERT INTO jsnotifications (notifications, emailJS) VALUES (?, ?)";
                     String notification;
                     String emailjs = "all";
@@ -2288,8 +2290,8 @@ String hirings = "hirings";
 
                     scheduleInterviewButtonn.addActionListener(
                             b -> {
+
                                 String interviewScheduleSql = "INSERT INTO interviewSchedule (job_id,jobseeker_name, jobseeker_email, employer_email, scheduled_date, scheduled_time, mode, location, remarks) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?)";
-                                String companyNamee = companyName;
                                 try (Connection con = DriverManager.getConnection(url, user, password)) {
                                     try (PreparedStatement pst1 = con.prepareStatement(interviewScheduleSql)) {
                                         int jobId = Integer.parseInt(jobIdTextField.getText().trim());
@@ -2319,7 +2321,7 @@ String hirings = "hirings";
 
                                         try (PreparedStatement pst = con.prepareStatement(jsNotificationSql)) {
                                             pst.setString(1, interviewMessage);
-                                            pst.setString(2, JSEmail);          // jobseeker’s email
+                                            pst.setString(2, JSEmail);
                                             pst.executeUpdate();
                                             System.out.println("Interview notification sent successfully to " + JSEmail);
                                         } catch (SQLException e) {
@@ -2378,6 +2380,7 @@ String hirings = "hirings";
                                             remarksTextField.setText("Optional notes...");
                                             remarksTextField.setForeground(new Color(107, 114, 128));
                                         }
+
                                     }
                                 } catch (NumberFormatException e) {
                                     JOptionPane.showMessageDialog(null, "Please enter a valid Job ID number.", "Input Error", JOptionPane.ERROR_MESSAGE);
