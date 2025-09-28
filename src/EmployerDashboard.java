@@ -1246,7 +1246,7 @@ class EmployerDashboard extends JFrame {
                     return;
                 }
 
-                String jobsSql = "INSERT INTO jobs(companyName,companyEmail companyLogo, logoFileName, location, jobType, salary, requirement, position, employerEmail) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                String jobsSql = "INSERT INTO jobs(companyName,companyEmail, companyLogo, logoFileName, location, jobType, salary, requirement, position, employerEmail) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 try (PreparedStatement pst = con.prepareStatement(jobsSql)) {
                     String position = getSuggestedPosition(requirementText);
                     pst.setString(1, PCompanyName);
