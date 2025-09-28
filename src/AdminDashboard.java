@@ -1810,12 +1810,12 @@ public class AdminDashboard extends JFrame {
             if (confirm == JOptionPane.YES_OPTION) {
                 try (Connection con = DriverManager.getConnection(url, user, password)) {
                     String sql = role.equals("Job Seeker") ?
-                            "UPDATE jobseekers SET status = ? WHERE JSJVID = ?" :
-                            "UPDATE employers SET status = ? WHERE EJVID = ?";
+                            "UPDATE jobseekers SET status = ? WHERE id = ?" :
+                            "UPDATE employers SET status = ? WHERE id = ?";
 
                     PreparedStatement pst = con.prepareStatement(sql);
                     pst.setString(1, newStatus);
-                    pst.setString(2, userId);
+                    pst.setInt(2, Integer.parseInt(userId));
                     pst.executeUpdate();
 
                     userModel.setValueAt(newStatus, editingRow, 4);
@@ -1828,6 +1828,7 @@ public class AdminDashboard extends JFrame {
             }
             return userModel.getValueAt(editingRow, 5);
         }
+
     }
 
     public static void main(String[] args) {
