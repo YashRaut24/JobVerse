@@ -11,7 +11,7 @@ class ApplyForm extends JFrame {
     private JTextArea reasonArea;
     private JLabel fileLabel;
     private File selectedFile;
-    private final String companyName, location, jobType, skills, salary, postedDate, employerEmail;
+    private final String companyName, location, jobType, skills, salary, postedDate, employerEmail,companyEmail;
     private final int jobId;
 
 
@@ -79,8 +79,8 @@ class ApplyForm extends JFrame {
         String password = System.getenv("DB_PASS");
 
         String appliedJobsSql = "INSERT INTO appliedjobs " +
-                "(UserEmail, CompanyName, Location, JobType, SkillsRequired, Salary, PostedDate, currentDate, Note, Reason, ResumePDF, FileName, id, employerEmail) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "(UserEmail, CompanyName, Location, JobType, SkillsRequired, Salary, PostedDate, currentDate, Note, Reason, ResumePDF, FileName, id, employerEmail,companyEmail) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection con = DriverManager.getConnection(url, user, password)) {
             boolean insertSuccess = false;
@@ -102,6 +102,7 @@ class ApplyForm extends JFrame {
                 pst.setString(12, selectedFile.getName());
                 pst.setInt(13, jobId);
                 pst.setString(14, employerEmail);
+                pst.setString(15,companyEmail);
 
                 int rows = pst.executeUpdate();
                 if (rows > 0) {
@@ -135,7 +136,7 @@ class ApplyForm extends JFrame {
     }
 
     // Constructor
-    ApplyForm(String userEmail, String companyName, String location, String jobType, String skills, String salary, String postedDate, int jobId, String employerEmail) {
+    ApplyForm(String userEmail, String companyName, String location, String jobType, String skills, String salary, String postedDate, int jobId, String employerEmail,String companyEmail) {
 
         String applyForm = "ApplyForm";
 
@@ -147,7 +148,7 @@ class ApplyForm extends JFrame {
         this.postedDate = postedDate;
         this.jobId = jobId;
         this.employerEmail = employerEmail;
-
+        this.companyEmail = companyEmail;
         // Fonts
         Font labelFont = new Font("Segoe UI", Font.BOLD, 14);
         Font fieldFont = new Font("Segoe UI", Font.PLAIN, 12);
@@ -215,6 +216,6 @@ class ApplyForm extends JFrame {
     }
 
     public static void main(String[] args) {
-        ApplyForm object11 = new ApplyForm("john@example.com", "TechCorp", "Pune","Full-Time", "Java, SQL", "70000.00", "2025-08-06", 1, "emailemployer");
+        ApplyForm object11 = new ApplyForm("john@example.com", "TechCorp", "Pune","Full-Time", "Java, SQL", "70000.00", "2025-08-06", 1, "emailemployer","company@email.com");
     }
 }
