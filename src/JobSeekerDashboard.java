@@ -149,7 +149,7 @@ class JobSeekerDashboard extends JFrame {
     // Creates job cards
     public JPanel createJobCard(String companyName, String companyInfo, String jobType, String skills, String salary, String postedDate, String location,
                                 String email, int jobId, String employerEmail, String status, Font compFont, Font typeFont, Font skillsFont, Font salaryFont,
-                                Font dateFont, ImageIcon logoIcon
+                                Font dateFont, ImageIcon logoIcon,String companyEmail
     ) {
         String url = System.getenv("DB_URL");
         String user = System.getenv("DB_USER");
@@ -183,7 +183,7 @@ class JobSeekerDashboard extends JFrame {
         jobCardPanel.add(logoButton);
 
         logoButton.addActionListener(p -> {
-            new CompanyProfile(employerEmail, false, "",false);
+            new CompanyProfile(companyEmail, false, "",false);
         });
 
         // Status label
@@ -248,7 +248,7 @@ class JobSeekerDashboard extends JFrame {
             } else if(status.equals("Paused")){
                 JOptionPane.showMessageDialog(null, "Applications are temporarily paused. Please try again later.");
             } else {
-                new ApplyForm(email, companyName, location, jobType, skills, salary, postedDate, jobId, employerEmail);
+                new ApplyForm(email, companyName, location, jobType, skills, salary, postedDate, jobId, employerEmail,companyEmail);
             }
         });
 
@@ -321,6 +321,7 @@ class JobSeekerDashboard extends JFrame {
         });
 
         Font emojiFont = new Font("Segoe UI Emoji", Font.PLAIN, 14);
+
         // Report Button  reportButton.setFont(emojiFont);11
         JButton reportButton = new JButton("\uD83D\uDEA9");
         reportButton.setBackground(new Color(220, 53, 69));
@@ -721,6 +722,7 @@ class JobSeekerDashboard extends JFrame {
                         String postedDate = rs.getString("postedAt");
                         String employerEmail = rs.getString("employerEmail");
                         String statusUpdate = rs.getString("status");
+                        String companyEmail = rs.getString("companyEmail");
 
                         ImageIcon logoIcon = null;
                         Blob logoBlob = rs.getBlob("companyLogo");
@@ -732,7 +734,7 @@ class JobSeekerDashboard extends JFrame {
                         // Create cards for searched jobs
                         JPanel card = createJobCard(companyName, companyInfo, jobTypeRes, skills, salary, postedDate,
                                 location, email, jobId, employerEmail, statusUpdate, compFont, typeFont,
-                                skillsFont, salaryFont, dateFont, logoIcon);
+                                skillsFont, salaryFont, dateFont, logoIcon,companyEmail);
                         searchedJobsPanel.add(card);
                     }
 
@@ -1020,6 +1022,7 @@ class JobSeekerDashboard extends JFrame {
                         String postedDate = rs.getString("postedAt");
                         String employerEmail = rs.getString("employerEmail");
                         String statusUpdate = rs.getString("status");
+                        String companyEmail = rs.getString("companyEmail");
 
                         ImageIcon logoIcon = null;
                         Blob logoBlob = rs.getBlob("companyLogo");
@@ -1032,7 +1035,7 @@ class JobSeekerDashboard extends JFrame {
                         JPanel card = createJobCard(
                                 companyName, companyInfo, jobTypeRes, skills, salary, postedDate,
                                 location, email, jobId, employerEmail, statusUpdate,
-                                compFont, typeFont, skillsFont, salaryFont, dateFont, logoIcon
+                                compFont, typeFont, skillsFont, salaryFont, dateFont, logoIcon,companyEmail
                         );
                         homePanel.add(card);
                     }
@@ -1237,6 +1240,7 @@ class JobSeekerDashboard extends JFrame {
                         String APostedDate = rs.getString("PostedDate");
                         String employerEmail = rs.getString("employerEmail");
                         String status = "Unknown";
+                        String companyEmail = rs.getString("companyEmail");
 
                         String jobIdNo = String.valueOf(jobId);
 
@@ -1285,7 +1289,7 @@ class JobSeekerDashboard extends JFrame {
                             logoButton.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 20));
                         }
 
-                        logoButton.addActionListener(p -> new CompanyProfile(employerEmail, false,"",false));
+                        logoButton.addActionListener(p -> new CompanyProfile(companyEmail, false,"",false));
 
                         Blob resumeBlob = rs.getBlob("ResumePDF");
                         String resumeFileName = rs.getString("FileName");
@@ -1465,6 +1469,7 @@ class JobSeekerDashboard extends JFrame {
                         String SPostedDate = rs.getString("PostedDate");
                         String employerEmail = rs.getString("employerEmail");
                         String status = "Unknown";
+                        String companyEmail = rs.getString("companyEmail");
 
                         String jobIdNo = String.valueOf(jobId);
 
@@ -1516,7 +1521,7 @@ class JobSeekerDashboard extends JFrame {
                             logoButton.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 20));
                         }
 
-                        logoButton.addActionListener(p -> new CompanyProfile(employerEmail, false, "",false));
+                        logoButton.addActionListener(p -> new CompanyProfile(companyEmail, false, "",false));
 
                         // Status label
                         JLabel statusLabel = createLabelWithProperties(status, new Font("Segoe UI", Font.BOLD, 9),
@@ -1577,9 +1582,7 @@ class JobSeekerDashboard extends JFrame {
                         // Apply button
                         JButton applyButton = createStyledButton("Apply", new Color(40, 167, 69), Color.WHITE, 9);
                         applyButton.setBounds(95, 120, 60, 24);
-                        applyButton.addActionListener(g -> new ApplyForm(
-                                email, SCompName, SLocation, SJobType, SSkillsRequired, SSalary, SPostedDate, jobId, employerEmail
-                        ));
+                        applyButton.addActionListener(g -> new ApplyForm(email, SCompName, SLocation, SJobType, SSkillsRequired, SSalary, SPostedDate, jobId, employerEmail,companyEmail));
                         savedCardPanel.add(applyButton);
 
                         // Report button
