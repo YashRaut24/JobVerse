@@ -72,16 +72,16 @@ This ensures:
 ### 📸 Screenshots
 
 **Landing Page**
-![JobVerse Demo](images/LandingPage.png)
+![JobVerse Demo](Images/LandingPage.png)
 
 **Job Seeker Dashboard**
-![JobVerse Demo](images/Jobseekers%20Dashboard.png)
+![JobVerse Demo](Images/JobSeekers%20Dashboard.png)
 
 **Employer Dashboard**
-![JobVerse Demo](images/Employers%20Dashboard.png)
+![JobVerse Demo](Images/Employers%20Dashboard.png)
 
 **Admin Dashboard**
-![JobVerse Demo](images/Admin%20Dashboard.png)
+![JobVerse Demo](Images/Admin%20Dashboard.png)
 
 ## 📁 Project Structure
 
@@ -89,10 +89,14 @@ This ensures:
 JobVerse/
 ├── .idea/                   
 ├── Images/                    
-│   ├── company_logo.png
+│   ├── Admin Dashboard.png
 │   ├── DefaultProfile.png
-│   └── JobVerse-removebg-preview.png
-├── out/                     
+│   ├── Employers Dashboard.png
+│   ├── JobSeekers Dashboard.png
+│   ├── JobVerse-removebg-preview.png
+│   ├── LandingPage.png
+│   └── company_logo.png
+├── resources/
 ├── src/                      
 │   ├── About
 │   ├── AdminDashboard
