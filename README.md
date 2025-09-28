@@ -1,50 +1,44 @@
-# JobVerse  
+# JobVerse
 
-JobVerse is a full-stack **Java Swing-based Job Portal** with a **MySQL backend**.  
-It connects **Job Seekers**, **Employers**, and **Admins** in one secure ecosystem with role-based dashboards, real-time chat, and analytics.  
+JobVerse is a full-stack **Java Swing-based Job Portal** with a **MySQL backend**. It connects **Job Seekers**, **Employers**, and **Admins** in one secure ecosystem with role-based dashboards, real-time chat, and analytics.
 
----
-
-## ✨ Features  
+## ✨ Features
 
 ### 👤 Job Seeker
-- Browse and search jobs with filters  
-- Apply to jobs and upload resumes (stored as BLOBs)  
-- Save jobs for later  
-- View application status and notifications  
-- Chat with employers in real-time  
+* Browse and search jobs with filters
+* Apply to jobs and upload resumes (stored as BLOBs)
+* Save jobs for later
+* View application status and notifications
+* Chat with employers in real-time
 
 ### 🏢 Employer
-- Post, edit, and delete job listings  
-- View applications and shortlist/reject candidates  
-- Schedule interviews and send offer/interview letters via Gmail API  
-- Chat with job seekers in real-time  
+* Post, edit, and delete job listings
+* View applications and shortlist/reject candidates
+* Schedule interviews and send offer/interview letters via Gmail API
+* Chat with job seekers in real-time
 
 ### 🔑 Admin
-- Manage users, employers, and job postings  
-- Ban / Unban / Delete / Reset accounts  
-- Access analytics and dashboards  
-
----
+* Manage users, employers, and job postings
+* Ban / Unban / Delete / Reset accounts
+* Access analytics and dashboards
 
 ## 🛠️ Tech Stack
-- 💻 Frontend: **Java Swing**  
-- ⚙️ Backend: **Java + JDBC**  
-- 🗄️ Database: **MySQL**  
-- 📂 Storage: **BLOBs for resumes**   
+* 💻 **Frontend:** Java Swing
+* ⚙️ **Backend:** Java + JDBC
+* 🗄️ **Database:** MySQL
+* 📂 **Storage:** BLOBs for resumes
 
----
+## 🚀 Setup
 
-## 🚀 Setup  
-
-### Option 1: Using `.properties` file  
-1. Copy `application.properties.example` → `application.properties`  
-2. Fill in your local DB credentials:  
+### Option 1: Using `.properties` file
+1. Copy `application.properties.example` → `application.properties`
+2. Fill in your local DB credentials:
 
 ```properties
 DB_URL=jdbc:mysql://localhost:3306/JobVerse
 DB_USER=root
 DB_PASS=your_password_here
+```
 
 ### Option 2: Using Environment Variables (Windows PowerShell)
 
@@ -52,47 +46,46 @@ DB_PASS=your_password_here
 setx DB_URL "jdbc:mysql://localhost:3306/JobVerse"
 setx DB_USER "root"
 setx DB_PASS "your_password_here"
+```
 
-✅ Usage in Code
+### ✅ Usage in Code
+```java
 String url = System.getenv("DB_URL");
 String user = System.getenv("DB_USER");
 String password = System.getenv("DB_PASS");
+```
+
 This ensures:
+* 🔒 No sensitive data in GitHub repo
+* 💻 Developers can still run the project locally
 
-🔒 No sensitive data in GitHub repo
+## ▶️ Run the Project
 
-💻 Developers can still run the project locally
+1. Open the project in IntelliJ IDEA (or your preferred IDE)
+2. Ensure MySQL is running and database `JobVerse` is created
+3. Run `Main.java` from the src folder
 
-▶️ Run the Project
+## 📺 Demo
 
-Open the project in IntelliJ IDEA (or your preferred IDE).
+🎥 [Demo Video](#)
 
-Ensure MySQL is running and database JobVerse is created.
+### 📸 Screenshots
 
-Run Main.java from the src folder.
-
-📺 Demo
-
-🎥 Demo Video
-
-📸 Screenshots:
-
-Landing Page
-
+**Landing Page**
 ![JobVerse Demo](images/LandingPage.png)
 
-Job Seeker Dashboard
+**Job Seeker Dashboard**
+![JobVerse Demo](images/Jobseekers%20Dashboard.png)
 
-![JobVerse Demo](images/Jobseekers Dashboard.png)
+**Employer Dashboard**
+![JobVerse Demo](images/Employers%20Dashboard.png)
 
-Employer Dashboard
+**Admin Dashboard**
+![JobVerse Demo](images/Admin%20Dashboard.png)
 
-![JobVerse Demo](images/Employers Dashboard.png)
+## 📁 Project Structure
 
-Admin Dashboard
-
-![JobVerse Demo](images/Admin Dashboard.png)
-
+```
 JobVerse/
 ├── .idea/                   
 ├── Images/                    
@@ -120,36 +113,35 @@ JobVerse/
 │   └── SignUpPage
 ├── .gitignore                 
 ├── JobPortal.iml             
-├── README.md                  
+└── README.md                  
+```
 
-🤝 Contributing
+## 🤝 Contributing
 
-Fork the repository
+1. Fork the repository
+2. Create a new branch
+   ```bash
+   git checkout -b feature-name
+   ```
+3. Make your changes
+4. Commit your changes
+   ```bash
+   git commit -m "Description of changes"
+   ```
+5. Push to your branch
+   ```bash
+   git push origin feature-name
+   ```
+6. Open a Pull Request
 
-Create a new branch
-
-git checkout -b feature-name
-
-Make your changes
-
-Commit your changes
-
-git commit -m "Description of changes"
-
-Push to your branch
-
-git push origin feature-name
-
-Open a Pull Request
-
-📜 License
+## 📜 License
 
 This project is licensed under the MIT License.
 
-📬 Contact
+## 📬 Contact
 
-Yash Raut – yashdr2405@gmail.com
+**Yash Raut** – yashdr2405@gmail.com
 
-🔗 LinkedIn - www.linkedin.com/in/yash-raut-240505-yr30
+🔗 [LinkedIn](https://www.linkedin.com/in/yash-raut-240505-yr30)
 
-🌐 GitHub - https://github.com/YashRaut24
+🌐 [GitHub](https://github.com/YashRaut24)
