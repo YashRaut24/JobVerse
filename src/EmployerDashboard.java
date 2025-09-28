@@ -452,11 +452,11 @@ class EmployerDashboard extends JFrame {
         employerPanel.setBounds(190, 90, 591, 468);
         employerContainer.add(employerPanel);
 
-        // Jobverse logo
+        // JobVerse logo
         ImageIcon originalIcon = new ImageIcon("images/company_logo.png");
         Image scaledImage = originalIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
 
-        // Jobverse logo label
+        // JobVerse logo label
         JLabel logoLabel = createLabel("", null, null, SwingConstants.LEFT, 3, 3, 84, 84, null, false, null, employerContainer);
         logoLabel.setIcon(new ImageIcon(scaledImage));
 
@@ -671,22 +671,26 @@ class EmployerDashboard extends JFrame {
         notificationButton.setToolTipText("Job Notifications & Updates");
 
         int jobAlertCount = 0;
-        String jobsCountSql = "SELECT COUNT(*) FROM jobs j WHERE j.companyName = ? AND DATEDIFF(CURDATE(), j.postedAt) >= 3 " +
+        int annCount = 0;
+
+        // Job Alerts Count
+        String jobsCountSql = "SELECT COUNT(*) FROM jobs j " +
+                "WHERE j.companyName = ? " +
+                "AND DATEDIFF(CURDATE(), j.postedAt) >= 3 " +
                 "AND NOT EXISTS (SELECT 1 FROM appliedjobs a WHERE a.JobID = j.id)";
-        try (Connection con = DriverManager.getConnection(url, user, password)){
-            try(PreparedStatement ps = con.prepareStatement(jobsCountSql)) {
-                ps.setString(1, companyName);
-                try (ResultSet rs = ps.executeQuery()) {
-                    if (rs.next()) {
-                        jobAlertCount = rs.getInt(1);
-                    }
+        try (Connection con = DriverManager.getConnection(url, user, password);
+             PreparedStatement ps = con.prepareStatement(jobsCountSql)) {
+            ps.setString(1, companyName);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    jobAlertCount = rs.getInt(1);
                 }
             }
-        }catch (SQLException ex) {
+        } catch (SQLException ex) {
             ex.printStackTrace();
         }
 
-        int annCount = 0;
+        // Announcements Count
         String annSql = "SELECT COUNT(*) FROM announcements WHERE audience = 'Employers' OR audience = 'All'";
         try (Connection con = DriverManager.getConnection(url, user, password);
              PreparedStatement ps = con.prepareStatement(annSql);
@@ -698,6 +702,7 @@ class EmployerDashboard extends JFrame {
             ex.printStackTrace();
         }
 
+        // Final total
         int totalCount = jobAlertCount + annCount;
 
         // Badge label
@@ -718,25 +723,6 @@ class EmployerDashboard extends JFrame {
         notificationPane.add(badgeLabel, Integer.valueOf(1));
 
         employerContainer.add(notificationPane);
-
-        String countSql = "SELECT COUNT(*) AS cnt FROM jobs j WHERE j.companyName = ? AND DATEDIFF(CURDATE(), j.postedAt) >= 3 AND NOT EXISTS (SELECT 1 FROM appliedjobs a WHERE a.JobID = j.id)";
-            try (Connection conn = DriverManager.getConnection(url, user, password)){
-                try(PreparedStatement ps = conn.prepareStatement(countSql)){
-                    ps.setString(1, companyName);
-                    ResultSet rs = ps.executeQuery();
-                    if (rs.next()) {
-                        int count = rs.getInt("cnt");
-                        if (count > 0) {
-                            badgeLabel.setText(String.valueOf(count));
-                            badgeLabel.setVisible(true);
-                        } else {
-                            badgeLabel.setVisible(false);
-                        }
-                    }
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
 
         notificationButton.addActionListener(a -> {
 
@@ -1260,22 +1246,23 @@ class EmployerDashboard extends JFrame {
                     return;
                 }
 
-                String jobsSql = "INSERT INTO jobs(companyName, companyLogo, logoFileName, location, jobType, salary, requirement, position, employerEmail) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                String jobsSql = "INSERT INTO jobs(companyName,companyEmail companyLogo, logoFileName, location, jobType, salary, requirement, position, employerEmail) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 try (PreparedStatement pst = con.prepareStatement(jobsSql)) {
                     String position = getSuggestedPosition(requirementText);
                     pst.setString(1, PCompanyName);
+                    pst.setString(2,companyEmail);
                     if (companyLogoStream != null) {
-                        pst.setBlob(2, companyLogoStream);
+                        pst.setBlob(3, companyLogoStream);
                     } else {
-                        pst.setNull(2, java.sql.Types.BLOB);
+                        pst.setNull(3, java.sql.Types.BLOB);
                     }
-                    pst.setString(3, logoFileName);
-                    pst.setString(4, location);
-                    pst.setString(5, jobType);
-                    pst.setString(6, salary);
-                    pst.setString(7, requirement);
-                    pst.setString(8, position);
-                    pst.setString(9, empEmail);
+                    pst.setString(4, logoFileName);
+                    pst.setString(5, location);
+                    pst.setString(6, jobType);
+                    pst.setString(7, salary);
+                    pst.setString(8, requirement);
+                    pst.setString(9, position);
+                    pst.setString(10, empEmail);
                     pst.executeUpdate();
 
                     String employerCheck = "SELECT * FROM companies WHERE employersEmail = ?";
