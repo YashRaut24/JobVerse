@@ -1,6 +1,6 @@
 # JobVerse
 
-JobVerse is a full-stack **Java Swing-based Job Portal** with a **MySQL backend**. It connects **Job Seekers**, **Employers**, and **Admins** in one secure ecosystem with role-based dashboards, real-time chat, and analytics.
+JobVerse is a full-stack **Java Swing-based Job Portal** with a **MySQL** backend. It connects **Job Seekers**, **Employers**, and **Admins** in one secure ecosystem with role-based dashboards, real-time chat, and analytics.
 
 ## ✨ Features
 
@@ -23,6 +23,7 @@ JobVerse is a full-stack **Java Swing-based Job Portal** with a **MySQL backend*
 * Access analytics and dashboards
 
 ## 🛠️ Tech Stack
+
 * 💻 **Frontend:** Java Swing
 * ⚙️ **Backend:** Java + JDBC
 * 🗄️ **Database:** MySQL
@@ -30,10 +31,9 @@ JobVerse is a full-stack **Java Swing-based Job Portal** with a **MySQL backend*
 
 ## 🚀 Setup
 
-### Option 1: Using `.properties` file
+### Option 1: Using .properties file
 1. Copy `application.properties.example` → `application.properties`
 2. Fill in your local DB credentials:
-
 ```properties
 DB_URL=jdbc:mysql://localhost:3306/JobVerse
 DB_USER=root
@@ -41,7 +41,6 @@ DB_PASS=your_password_here
 ```
 
 ### Option 2: Using Environment Variables (Windows PowerShell)
-
 ```powershell
 setx DB_URL "jdbc:mysql://localhost:3306/JobVerse"
 setx DB_USER "root"
@@ -61,48 +60,30 @@ This ensures:
 
 ## ▶️ Run the Project
 
-1. **Clone the repository:**
-```bash
+1. Clone the repository:
+   ```bash
    git clone https://github.com/YashRaut24/JobVerse.git
    cd JobVerse
+   ```
 
-Set up the database:
+2. Set up the database:
+   * Ensure MySQL is running
+   * Create the database:
+   ```sql
+   CREATE DATABASE JobVerse;
+   ```
+   * Import the schema:
+   ```bash
+   mysql -u root -p JobVerse < db/jobverse_schema.sql
+   ```
 
-Ensure MySQL is running
-Create the database:
+3. Configure database credentials:
+   * Either update `application.properties`
+   * Or set environment variables (`DB_URL`, `DB_USER`, `DB_PASS`)
 
-sql     CREATE DATABASE JobVerse;
+4. Open the project in IntelliJ IDEA (or your preferred IDE)
 
-Import the schema:
-
-bash     mysql -u root -p JobVerse < db/jobverse_schema.sql
-
-(Optional) Import sample data:
-
-bash     mysql -u root -p JobVerse < db/jobverse_sample_data.sql
-
-Configure database credentials:
-Option 1: Using .properties file
-
-Copy application.properties.example → application.properties
-Fill in your local DB credentials:
-
-
-
-properties      DB_URL=jdbc:mysql://localhost:3306/JobVerse
-      DB_USER=root
-      DB_PASS=your_password_here
-Option 2: Using Environment Variables (Windows PowerShell)
-powershell   setx DB_URL "jdbc:mysql://localhost:3306/JobVerse"
-   setx DB_USER "root"
-   setx DB_PASS "your_password_here"
-
-Open the project in IntelliJ IDEA (or your preferred IDE)
-Run Main.java from the src folder to start the application
-
-## 📺 Demo
-
-🎥 [Demo Video](#)
+5. Run `LandingPage.java` from the src folder to start the application
 
 ### 📸 Screenshots
 
@@ -156,7 +137,7 @@ JobVerse/
 │   └── SignUpPage
 ├── .gitignore                 
 ├── JobPortal.iml             
-└── README.md                  
+└── README.md
 ```
 
 ## 🤝 Contributing
@@ -181,6 +162,5 @@ JobVerse/
 
 **Yash Raut** – yashdr2405@gmail.com
 
-🔗 [LinkedIn](https://www.linkedin.com/in/yash-raut-240505-yr30)
-
+🔗 [LinkedIn](https://www.linkedin.com/in/yash-raut-240505-yr30)  
 🌐 [GitHub](https://github.com/YashRaut24)
