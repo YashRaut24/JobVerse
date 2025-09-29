@@ -105,11 +105,11 @@ This ensures:
 
 **JobSeeker Chat**
 
-<img src="Images/Jobseeker Chat.png" alt="JobVerse Jobseeker Chat" width="600">
+<img src="Images/JobSeeker Chat.png" alt="JobVerse Jobseeker Chat" width="600">
 
 **Employer Chat**
 
-<img src="Images/Employer Chat.png" alt="JobVerse Employer Chat" width="600">
+<img src="Images/Employers Chat.png" alt="JobVerse Employers Chat" width="600">
 
 ## 📁 Project Structure
 
