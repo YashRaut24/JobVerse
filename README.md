@@ -103,6 +103,14 @@ This ensures:
 
 <img src="Images/Admin Dashboard.png" alt="JobVerse Admin Dashboard" width="600">
 
+**JobSeeker Chat**
+
+<img src="Images/Jobseeker Chat.png" alt="JobVerse Jobseeker Chat" width="600">
+
+**Employer Chat**
+
+<img src="Images/Employer Chat.png" alt="JobVerse Employer Chat" width="600">
+
 ## 📁 Project Structure
 
 ```
