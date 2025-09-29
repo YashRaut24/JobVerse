@@ -142,10 +142,6 @@ JobVerse/
    ```
 6. Open a Pull Request
 
-## 📜 License
-
-This project is licensed under the MIT License.
-
 ## 📬 Contact
 
 **Yash Raut** – yashdr2405@gmail.com
