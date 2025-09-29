@@ -333,7 +333,6 @@ class EmployerDashboard extends JFrame {
             }
         });
 
-
         // Reject button
         JButton rejectButton = new JButton("✖");
         rejectButton.setBackground(new Color(220, 53, 69));
@@ -2603,19 +2602,21 @@ class EmployerDashboard extends JFrame {
                                                                     if (rs1.next()) {
                                                                         String getCompanyName = rs1.getString("companyName");
                                                                         String getCompanyWebsite = rs1.getString("website");
+                                                                        String getCompanyEmail = rs1.getString("companyEmail");
                                                                         String getIndustry = rs1.getString("industry");
                                                                         int getOPosition = rs1.getInt("openPositions");
                                                                         String getHStatus = rs1.getString("hiringStatus");
 
                                                                         String hiringsSql = "INSERT INTO hirings " +
-                                                                                "(companyName, companyWebsite, industry, openPositions, hiringStatus) " +
+                                                                                "(companyName,companyEmail, companyWebsite, industry, openPositions, hiringStatus) " +
                                                                                 "VALUES (?, ?, ?, ?, ?)";
                                                                         try (PreparedStatement pst3 = con1.prepareStatement(hiringsSql)) {
                                                                             pst3.setString(1, getCompanyName);
-                                                                            pst3.setString(2, getCompanyWebsite);
-                                                                            pst3.setString(3, getIndustry);
-                                                                            pst3.setInt(4, getOPosition);
-                                                                            pst3.setString(5, getHStatus);
+                                                                            pst3.setString(2,getCompanyEmail);
+                                                                            pst3.setString(3, getCompanyWebsite);
+                                                                            pst3.setString(4, getIndustry);
+                                                                            pst3.setInt(5, getOPosition);
+                                                                            pst3.setString(6, getHStatus);
                                                                             pst3.executeUpdate();
                                                                             System.out.println("Company inserted into hirings: " + getCompanyName);
                                                                         }
