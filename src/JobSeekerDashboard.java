@@ -388,7 +388,7 @@ class JobSeekerDashboard extends JFrame {
         jobSeekerPanel.setBounds(190, 90, 591, 468);
         jobSeekerContainer.add(jobSeekerPanel);
 
-        // Jobverse logo
+        // JobVerse logo
         ImageIcon originalIcon = new ImageIcon("images/JobVerse-removebg-preview.png");
         Image scaledImage = originalIcon.getImage().getScaledInstance(190, 60, Image.SCALE_SMOOTH);
 
@@ -2354,6 +2354,21 @@ class JobSeekerDashboard extends JFrame {
         jobSeekerPanel.add(rateFeedbackPanel, "RateFeedback");
 
         rateFeedbackButton.addActionListener(e -> jobseekerCardLayout.show(jobSeekerPanel, "RateFeedback"));
+
+        // Chatbot logo
+        ImageIcon chatBotLogo = new ImageIcon("images/Chatbot.png");
+        Image scaledChatBot = chatBotLogo.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH);
+
+        // Chatbot button
+        JButton chatBotButton = new JButton(new ImageIcon(scaledChatBot));
+        chatBotButton.setBounds(710, 490, 60, 60); // match bounds to image size
+        chatBotButton.setBorderPainted(false);
+        chatBotButton.setContentAreaFilled(false);
+        chatBotButton.setFocusPainted(false);
+        chatBotButton.setOpaque(false);
+        chatBotButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        getLayeredPane().add(chatBotButton, JLayeredPane.PALETTE_LAYER);
+        chatBotButton.addActionListener(a -> JOptionPane.showMessageDialog(null, "Chatbot here!"));
 
         // Logout button
         JButton logoutButton = new JButton("Logout");
