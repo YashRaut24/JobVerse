@@ -2540,125 +2540,130 @@ class EmployerDashboard extends JFrame {
 
                     offerSchedulingPanel.add(sendOfferButton);
 
-                    sendOfferButton.addActionListener(
-                            p -> {
-                                String offerLettersSql = "INSERT INTO offerletters (job_id, jobseeker_name, jobseeker_email, employer_email, position,package, joining_date) VALUES (?, ?, ?, ?,?, ?, ?)";
+                    sendOfferButton.addActionListener(p -> {
+                        String companyNamee = companyName; // your companyName variable
 
-                                String companyNamee = companyName;
+                        // Validate all inputs first
+                        try {
+                            int jobId = Integer.parseInt(jobIdTextField.getText().trim());
+                            String JSName = jobseekerNameTextField.getText().trim();
+                            String JSEmail = jobseekerEmailTextField.getText().trim();
+                            String EEmail = employerEmailTextField.getText().trim();
+                            String position = positionTextField.getText().trim();
+                            String salary = packageTextField.getText().trim();
+                            String joiningDate = joiningDateTextField.getText().trim();
 
-                                try (Connection con1 = DriverManager.getConnection(url, user, password)) {
-                                    try (PreparedStatement pst2 = con1.prepareStatement(offerLettersSql)) {
-                                        int jobId = Integer.parseInt(jobIdTextField.getText().trim());
-                                        String JSName = jobseekerNameTextField.getText().trim();
-                                        String JSEmail = jobseekerEmailTextField.getText().trim();
-                                        String EEmail = employerEmailTextField.getText().trim();
-                                        String position = positionTextField.getText().trim();
-                                        String salary = packageTextField.getText().trim();
-                                        String joiningDate = joiningDateTextField.getText().trim();
+                            if (joiningDate.equals("yyyy-MM-dd")) joiningDate = "";
 
-                                        if (joiningDate.equals("yyyy-MM-dd")) {
-                                            joiningDate = "";
-                                        }
+                            if (jobId == 0 || JSName.isEmpty() || JSEmail.isEmpty() || EEmail.isEmpty() || joiningDate.isEmpty()) {
+                                JOptionPane.showMessageDialog(null, "Please fill all the fields.", "Validation Error", JOptionPane.WARNING_MESSAGE);
+                                return;
+                            }
 
-                                        String offerMessage = "You have received a job offer from " + companyNamee + "! Please check your email for details.";
+                            // Database operations
+                            try (Connection con1 = DriverManager.getConnection(url, user, password)) {
 
-                                        String jsNotificationSql = "INSERT INTO jsnotifications (notifications, emailJS) VALUES (?, ?)";
+                                // 1️⃣ Insert into offerletters with companyName and offer_date
+                                String offerLettersSql = "INSERT INTO offerletters (job_id, jobseeker_name, jobseeker_email, employer_email, position, package, joining_date, companyName, offer_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+                                try (PreparedStatement pst2 = con1.prepareStatement(offerLettersSql)) {
+                                    pst2.setInt(1, jobId);
+                                    pst2.setString(2, JSName);
+                                    pst2.setString(3, JSEmail);
+                                    pst2.setString(4, EEmail);
+                                    pst2.setString(5, position);
+                                    pst2.setString(6, salary);
+                                    pst2.setString(7, joiningDate);
+                                    pst2.setString(8, companyNamee);
 
-                                        try (PreparedStatement pst = con1.prepareStatement(jsNotificationSql)) {
-                                            pst.setString(1, offerMessage);
-                                            pst.setString(2, JSEmail);
-                                            pst.executeUpdate();
-                                            System.out.println("Offer notification sent successfully to " + JSEmail);
-                                        } catch (SQLException e) {
-                                            e.printStackTrace();
-                                        }
+                                    int rowsInserted = pst2.executeUpdate();
+                                    if (rowsInserted > 0) {
+                                        JOptionPane.showMessageDialog(null, "Offer letter sent successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                                    }
+                                }
 
-                                        String companiesSql = "SELECT * FROM companies WHERE employersEmail = ?";
-                                        String activitiesSql = "INSERT INTO activities (empEmail,activity,user)VALUES(?,?,?)";
-                                        String message = companyName + " has sent a offer letter to " + JSName + " for " + position + "!";
+                                // 2️⃣ Send JS notification
+                                String offerMessage = "You have received a job offer from " + companyNamee + "! Please check your email for details.";
+                                String jsNotificationSql = "INSERT INTO jsnotifications (notifications, emailJS) VALUES (?, ?)";
+                                try (PreparedStatement pst = con1.prepareStatement(jsNotificationSql)) {
+                                    pst.setString(1, offerMessage);
+                                    pst.setString(2, JSEmail);
+                                    pst.executeUpdate();
+                                    System.out.println("Offer notification sent successfully to " + JSEmail);
+                                }
 
-                                        try (PreparedStatement pstt = con1.prepareStatement(companiesSql)) {
-                                            pstt.setString(1, empEmail);
-                                            ResultSet rs7 = pstt.executeQuery();
-                                            if (rs7.next()) {
-                                                try (PreparedStatement psttt = con1.prepareStatement(activitiesSql)) {
-                                                    psttt.setString(1, empEmail);
-                                                    psttt.setString(2, message);
-                                                    psttt.setString(3, "Employer");
+                                // 3️⃣ Insert activity for employer
+                                String activitiesSql = "INSERT INTO activities (empEmail, activity, user) VALUES (?, ?, ?)";
+                                String message = companyNamee + " has sent an offer letter to " + JSName + " for " + position + "!";
+                                try (PreparedStatement pst = con1.prepareStatement(activitiesSql)) {
+                                    pst.setString(1, empEmail);
+                                    pst.setString(2, message);
+                                    pst.setString(3, "Employer");
+                                    pst.executeUpdate();
+                                }
 
-                                                    String sqlUpdate = "UPDATE hirings h SET h.hiringStatus = ( CASE WHEN EXISTS ( SELECT 1 FROM offerletters o " +
-                                                            " WHERE o.companyName = h.companyName AND o.offer_date >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)) " +
-                                                            " THEN 'Hired' ELSE 'No recent activity' END) WHERE h.companyName = ?";
+                                // 4️⃣ Update hirings.hiringStatus based on offerletters
+                                String sqlUpdate = "UPDATE hirings h SET " +
+                                        "h.hiringStatus = (CASE WHEN EXISTS (SELECT 1 FROM offerletters o " +
+                                        "WHERE o.companyName = h.companyName AND o.offer_date >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)) " +
+                                        "THEN 'Hired' ELSE 'No recent activity' END), " +
+                                        "h.updatedDate = NOW() " +
+                                        "WHERE h.companyName = ?";
+                                try (PreparedStatement pst = con1.prepareStatement(sqlUpdate)) {
+                                    pst.setString(1, companyNamee);
+                                    pst.executeUpdate();
+                                }
 
-                                                    try (PreparedStatement pst = con1.prepareStatement(sqlUpdate)) {
-                                                        pst.setString(1, companyName);
-                                                        int rowsUpdated = pst.executeUpdate();
+                                // 5️⃣ Insert company into hirings if not present
+                                String checkHiringsSql = "SELECT 1 FROM hirings WHERE companyName = ?";
+                                try (PreparedStatement pst = con1.prepareStatement(checkHiringsSql)) {
+                                    pst.setString(1, companyNamee);
+                                    try (ResultSet rs = pst.executeQuery()) {
+                                        if (!rs.next()) {
+                                            String companyProfileSql = "SELECT * FROM companyProfile WHERE companyName = ?";
+                                            try (PreparedStatement pst1 = con1.prepareStatement(companyProfileSql)) {
+                                                pst1.setString(1, companyNamee);
+                                                try (ResultSet rs1 = pst1.executeQuery()) {
+                                                    if (rs1.next()) {
+                                                        String getCompanyName = rs1.getString("companyName");
+                                                        String getCompanyWebsite = rs1.getString("website");
+                                                        String getCompanyEmail = rs1.getString("companyEmail");
+                                                        String getIndustry = rs1.getString("industry");
+                                                        int getOPosition = rs1.getInt("openPositions");
+                                                        String getHStatus = rs1.getString("hiringStatus");
 
-                                                        if (rowsUpdated == 0) {
-                                                            String companyProfileSql = "SELECT * FROM companyProfile WHERE companyName = ?";
-                                                            try (PreparedStatement pst1 = con1.prepareStatement(companyProfileSql)) {
-                                                                pst1.setString(1, companyName);
-                                                                try (ResultSet rs1 = pst1.executeQuery()) {
-                                                                    if (rs1.next()) {
-                                                                        String getCompanyName = rs1.getString("companyName");
-                                                                        String getCompanyWebsite = rs1.getString("website");
-                                                                        String getCompanyEmail = rs1.getString("companyEmail");
-                                                                        String getIndustry = rs1.getString("industry");
-                                                                        int getOPosition = rs1.getInt("openPositions");
-                                                                        String getHStatus = rs1.getString("hiringStatus");
-
-                                                                        String hiringsSql = "INSERT INTO hirings " +
-                                                                                "(companyName,companyEmail, companyWebsite, industry, openPositions, hiringStatus) " +
-                                                                                "VALUES (?, ?, ?, ?, ?)";
-                                                                        try (PreparedStatement pst3 = con1.prepareStatement(hiringsSql)) {
-                                                                            pst3.setString(1, getCompanyName);
-                                                                            pst3.setString(2,getCompanyEmail);
-                                                                            pst3.setString(3, getCompanyWebsite);
-                                                                            pst3.setString(4, getIndustry);
-                                                                            pst3.setInt(5, getOPosition);
-                                                                            pst3.setString(6, getHStatus);
-                                                                            pst3.executeUpdate();
-                                                                            System.out.println("Company inserted into hirings: " + getCompanyName);
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
-                                                        } else {
-                                                            System.out.println("Rows updated: " + rowsUpdated);
+                                                        String hiringsSql = "INSERT INTO hirings (companyName, companyEmail, companyWebsite, industry, openPositions, hiringStatus) VALUES (?, ?, ?, ?, ?, ?)";
+                                                        try (PreparedStatement pst3 = con1.prepareStatement(hiringsSql)) {
+                                                            pst3.setString(1, getCompanyName);
+                                                            pst3.setString(2, getCompanyEmail);
+                                                            pst3.setString(3, getCompanyWebsite);
+                                                            pst3.setString(4, getIndustry);
+                                                            pst3.setInt(5, getOPosition);
+                                                            pst3.setString(6, getHStatus);
+                                                            pst3.executeUpdate();
+                                                            System.out.println("Company inserted into hirings: " + getCompanyName);
                                                         }
-
-                                                    } catch (SQLException e) {
-                                                        e.printStackTrace();
                                                     }
-                                                    psttt.executeUpdate();
                                                 }
                                             }
                                         }
-
-                                        if (jobId == 0 || JSName.isEmpty() || JSEmail.isEmpty() || EEmail.isEmpty() || joiningDate.isEmpty()) {
-                                            JOptionPane.showMessageDialog(null, "Please fill all the fields.", "Validation Error", JOptionPane.WARNING_MESSAGE);
-                                            return;
-                                        }
-
-                                        pst2.setInt(1, jobId);
-                                        pst2.setString(2, JSName);
-                                        pst2.setString(3, JSEmail);
-                                        pst2.setString(4, EEmail);
-                                        pst2.setString(5, position);
-                                        pst2.setString(6, salary);
-                                        pst2.setString(7, joiningDate);
-
-                                        int rowsInserted = pst2.executeUpdate();
-                                        if (rowsInserted > 0) {
-                                            JOptionPane.showMessageDialog(null, "Offer letter sent successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                                        }
                                     }
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                    JOptionPane.showMessageDialog(null, "Error sending offer letter: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                                 }
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                JOptionPane.showMessageDialog(null, "Error sending offer letter: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                             }
-                    );
+
+                            // Refresh GUI
+                            offerSchedulingPanel.revalidate();
+                            offerSchedulingPanel.repaint();
+                            employerCardLayout.show(employerPanel, "Offer Letter");
+
+                        } catch (NumberFormatException nfe) {
+                            JOptionPane.showMessageDialog(null, "Job ID must be a number.", "Validation Error", JOptionPane.WARNING_MESSAGE);
+                        }
+                    });
+
                     offerSchedulingPanel.revalidate();
                     offerSchedulingPanel.repaint();
                     employerCardLayout.show(employerPanel, "Offer Letter");
