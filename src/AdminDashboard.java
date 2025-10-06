@@ -1572,6 +1572,24 @@ public class AdminDashboard extends JFrame {
         mainPanel.setBounds(180, 60, 710, 550);
         contentPanel.add(mainPanel);
 
+        // Chatbot logo
+        ImageIcon chatBotLogo = new ImageIcon("images/Chatbot.png");
+        Image scaledChatBot = chatBotLogo.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH);
+
+        // Chatbot button
+        JButton chatBotButton = new JButton(new ImageIcon(scaledChatBot));
+        chatBotButton.setBounds(820, 550, 60, 60);
+        chatBotButton.setBorderPainted(false);
+        chatBotButton.setContentAreaFilled(false);
+        chatBotButton.setFocusPainted(false);
+        chatBotButton.setOpaque(false);
+        chatBotButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        getLayeredPane().add(chatBotButton, JLayeredPane.PALETTE_LAYER);
+        chatBotButton.addActionListener(a -> {
+            new ChatAssistance("Admin");
+        });
+
+
         // Frame settings
         setContentPane(contentPanel);
         cardLayout.show(mainPanel, "dashboard");
