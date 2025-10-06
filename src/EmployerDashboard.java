@@ -3145,6 +3145,22 @@ class EmployerDashboard extends JFrame {
                 200, 5, 500, 40, null, false, null, employerContainer);
 
         employerContainer.setComponentZOrder(redDotLabel, 0);
+        // Chatbot logo
+        ImageIcon chatBotLogo = new ImageIcon("images/Chatbot.png");
+        Image scaledChatBot = chatBotLogo.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH);
+
+        // Chatbot button
+        JButton chatBotButton = new JButton(new ImageIcon(scaledChatBot));
+        chatBotButton.setBounds(710, 490, 60, 60); // match bounds to image size
+        chatBotButton.setBorderPainted(false);
+        chatBotButton.setContentAreaFilled(false);
+        chatBotButton.setFocusPainted(false);
+        chatBotButton.setOpaque(false);
+        chatBotButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        getLayeredPane().add(chatBotButton, JLayeredPane.PALETTE_LAYER);
+        chatBotButton.addActionListener(a -> {
+            new ChatAssistance("Employer");
+        });
 
 
         // Frame settings
