@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 
 class ChatAssistance extends JFrame {
-    ChatAssistance() {
+    ChatAssistance(String role) {
 
         // Main container
         Container assistanceContainer = getContentPane();
@@ -51,7 +51,7 @@ class ChatAssistance extends JFrame {
         assistanceContainer.add(bottomPanel);
 
         // Frame settings
-        setTitle("💬 Chat with VerserAI");
+        setTitle("💬 Chat with VerserAI (" + role +")");
         setSize(450, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -59,6 +59,6 @@ class ChatAssistance extends JFrame {
     }
 
     public static void main(String[] args) {
-        new ChatAssistance();
+        new ChatAssistance("ROLE");
     }
 }
