@@ -28,4 +28,21 @@ bin/
 ### Mac OS ###
 .DS_Store
 
+### JetBrains ###
 .idea/
+
+### Environment & Config Files ###
+.env
+config.properties
+
+### Java Build Files ###
+*.class
+*.jar
+*.war
+*.ear
+*.log
+
+### Backup Files ###
+*.tmp
+*.bak
+*.swp
